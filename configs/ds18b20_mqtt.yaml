@@ -1,0 +1,24 @@
+# DS18B20 1-Wire temperature sensor — MQTT bridge configuration
+sensor:
+  device_ids:
+    - "28-AABBCCDDEEFF"   # replace with real 1-Wire device IDs
+    - "28-112233445566"
+  poll_interval_s: 5
+  unit: celsius
+
+mqtt:
+  broker_host: "${MQTT_BROKER_HOST}"
+  broker_port: 1883
+  topic_prefix: "datacenter/sensors/temperature"
+  qos: 1
+  client_id: "ds18b20-bridge-01"
+  username: "${MQTT_USERNAME}"
+  password: "${MQTT_PASSWORD}"         # NEVER hard-code
+
+# SIMULATION MODE
+simulation:
+  enabled: true
+  num_virtual_sensors: 6
+  baseline_temp_c: 24.0
+  noise_std: 0.5
+  hotspot_prob: 0.05

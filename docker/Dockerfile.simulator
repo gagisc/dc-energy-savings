@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir numpy pandas Pillow
+COPY src/ src/
+CMD ["python", "src/simulator/run_simulator.py"]

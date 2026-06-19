@@ -1,0 +1,30 @@
+# FLIR A310 Thermal Camera — RTSP / ONVIF configuration
+# Replace PLACEHOLDER values with real credentials via environment variables.
+camera:
+  host: "${FLIR_A310_HOST}"
+  rtsp_port: 554
+  onvif_port: 80
+  user: "${FLIR_A310_USER}"
+  password: "${FLIR_A310_PASSWORD}"    # NEVER hard-code; load from env
+
+stream:
+  uri_template: "rtsp://{user}:{password}@{host}:{rtsp_port}/axis-media/media.amp"
+  transport: tcp                       # tcp | udp
+  resolution: [320, 240]
+  fps: 9
+  pixel_format: GRAY16LE              # 16-bit radiometric
+
+radiometry:
+  emissivity: 0.95
+  reflected_temp_c: 23.0
+  atmospheric_temp_c: 25.0
+  humidity_pct: 50
+
+alerts:
+  critical_temp_c: 45.0
+  warning_temp_c: 38.0
+
+# SIMULATION MODE
+simulation:
+  enabled_if_host_unreachable: true
+  frame_dir: data/samples/thermal_frames

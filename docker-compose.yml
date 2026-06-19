@@ -1,0 +1,27 @@
+version: "3.9"
+# dc-thermal-fusion — Docker Compose demo
+# Starts: simulator, Streamlit dashboard, MLflow tracking
+#
+# Usage:  docker compose up --build
+# Ports:  8501 = Streamlit  |  5000 = MLflow
+
+services:
+  simulator:
+    build: { context: ., dockerfile: docker/Dockerfile.simulator }
+    volumes: ["./data:/app/data"]
+    command: ["python", "src/simulator/run_simulator.py", "--n-frames", "500"]
+
+  dashboard:
+    build: { context: ., dockerfile: docker/Dockerfile.app }
+    ports: ["8501:8501"]
+    volumes: ["./data:/app/data"]
+    depends_on: [simulator]
+    command: ["streamlit", "run", "streamlit_app/app.py",
+              "--server.port=8501", "--server.address=0.0.0.0"]
+
+  mlflow:
+    image: ghcr.io/mlflow/mlflow:v2.13.0
+    ports: ["5000:5000"]
+    volumes: ["./mlruns:/mlruns"]
+    command: ["mlflow", "server", "--host", "0.0.0.0", "--port", "5000",
+              "--backend-store-uri", "/mlruns"]

@@ -1,0 +1,12 @@
+# Mosquitto / MQTT broker settings (Raspberry Pi deployment)
+broker:
+  host: "${MQTT_BROKER_HOST}"
+  port: 1883
+  tls_enabled: false
+  tls_ca_cert: ""
+  tls_client_cert: ""
+  tls_client_key: ""
+  keepalive_s: 60
+  auth_required: true
+  username: "${MQTT_USERNAME}"
+  password: "${MQTT_PASSWORD}"         # NEVER hard-code
